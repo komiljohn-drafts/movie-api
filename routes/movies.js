@@ -11,6 +11,15 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/top10', (req, res, next) => {
+    Movies.find({}, (err, data) => {
+        if (err) console.log(err);
+        res.json(data);
+    })
+        .sort({ 'imdb_score': -1 })
+        .limit(10);
+});
+
 // creating a new movie
 router.post('/', (req, res, next) => {
     const { title, category, year, director, imdb_score } = req.body;
@@ -60,16 +69,6 @@ router.delete('/:movie_id', (req, res, next) => {
             res.json(data);
         });
     });
-});
-
-// showing top 10 movies
-router.get('/top10', (req, res, next) => {
-    Movies.find({}, (err, data) => {
-        if (err) console.log(err);
-        res.json(data);
-    })
-        .sort({ 'imdb_score': -1 })
-        .limit(10);
 });
 
 // movies between two dates
