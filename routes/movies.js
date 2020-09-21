@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/top10', (req, res, next) => {
+router.get('/top/top10', (req, res, next) => {
     Movies.find({}, (err, data) => {
         if (err) console.log(err);
         res.json(data);
@@ -51,10 +51,7 @@ router.get('/:movie_id', (req, res, next) => {
 
 // updating a movie with a new info
 router.put('/:movie_id', (req, res, next) => {
-    Movies.update(
-        { _id: req.params.movie_id },
-        // updating parameter and it's value
-        { imdb_score: 8.5 },
+    Movies.findByIdAndUpdate(req.params.movie_id, req.body,
         (err, data) => {
             if (err) console.log(err);
             res.json(data);

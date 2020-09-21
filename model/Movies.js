@@ -18,7 +18,7 @@ const MovieSchema = new mongoose.Schema({
         require: true
     },
     imdb_score: Number,
-    director: mongoose.Schema.Types.ObjectId,
+    director_id: mongoose.Schema.Types.ObjectId,
     createdAt: {
         type: Date,
         default: Date.now

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 module.exports = () => {
     mongoose.connect(
         'mongodb+srv://user:5WLJTr3bVKgQAv7@cluster0.kunjj.mongodb.net/test',
-        { useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true }
+        { useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: true }
     );
 };
 
