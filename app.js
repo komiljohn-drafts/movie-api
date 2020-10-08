@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const jwt = require('jsonwebtoken');
 
 const moviesRouter = require('./routes/movies');
 const directorsRouter = require('./routes/directors');
@@ -14,6 +15,13 @@ const app = express();
 const db = require('./helper/db');
 db();
 
+// getting privat key from config
+const config = require('./helper/config');
+app.set('jwtPrivateKey', config.jwtPrivateKey);
+
+// middleware
+const tokenVerify = require('./middleware/tokenVerify');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -24,9 +32,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api', tokenVerify);
 app.use('/api/movies', moviesRouter);
 app.use('/api/directors', directorsRouter);
-app.use('/api/register', usersRouter);
+app.use('/register', usersRouter);
+app.use('/', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
